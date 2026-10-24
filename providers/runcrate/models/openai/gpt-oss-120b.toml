@@ -1,13 +1,25 @@
-# Pricing and limits: GET https://api.runcrate.ai/v1/models (accessed 2026-10-20): openai/gpt-oss-120b prompt 0.000000037/completion 0.00000017 USD per token, context_length 131072, max_output_length 131072, input_modalities text.
-# Reasoning: the Runcrate API does not document a dedicated reasoning field; effort low/medium/high (reasoning_effort) copied from same-model peers (deepinfra, crusoe, sambanova), not live-tested on this host.
+# Prices: GET https://www.runcrate.ai/api/models/catalog (accessed 2026-10-24), USD per 1M tokens as billed
+# (openai/gpt-oss-120b): input 0.03885, cached input 0.0058275, output 0.1785. context_length 131,072,
+# the same as the lab entry.
+# Reasoning is always on with no caller control on this host (live 2026-10-24, temperature 0, one
+# prompt): reasoning_effort none, low, high and max all returned 872 to 932 reasoning tokens, and
+# thinking.type / enable_thinking had no effect either. Reasoning text is in reasoning_content.
+# Live 2026-10-24: a tool call round-tripped; a strict json_schema response validated; a repeated
+# 6,378-token prompt reported 6,144 cached_tokens; image input is refused with HTTP 400.
+schema = 2
 base_model = "openai/gpt-oss-120b"
+
+[capabilities]
+reasoning = { supported = true }
 structured_output = true
-reasoning_options = [{ type = "effort", values = ["low", "medium", "high"] }]
+cache = { implicit = true }
 
-[cost]
-input = 0.037
-output = 0.17
+[api.chat-completions]
+compatibility = { reasoning_field = "reasoning_content" }
 
-[limit]
-context = 131_072
-output = 131_072
+[cost.text.input]
+price = 0.03885
+cache = { read = 0.0058275 }
+
+[cost.text.output]
+price = 0.1785

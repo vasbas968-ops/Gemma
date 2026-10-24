@@ -1,12 +1,22 @@
-# Pricing and limits: GET https://api.runcrate.ai/v1/models (accessed 2026-10-20): meta-llama/Llama-3.3-70B-Instruct-Turbo prompt 0.0000001/completion 0.00000032 USD per token, context_length 131072, max_output_length 131072, input_modalities text.
+# Prices: GET https://www.runcrate.ai/api/models/catalog (accessed 2026-10-24), USD per 1M tokens as billed
+# (meta-llama/Llama-3.3-70B-Instruct-Turbo): input 0.105, output 0.336. context_length 131,072 there;
+# max_output_length 16,384 in GET https://api.runcrate.ai/v1/models (live 2026-10-24: 6,000-token
+# completions ran to the requested max_tokens, above the lab entry's 4,096).
+# Live 2026-10-24: a tool call round-tripped; a strict json_schema response validated; image input is
+# refused with HTTP 400. No cached tokens were reported on repeated prompts, so no cache price.
+schema = 2
 base_model = "meta/llama-3.3-70b-instruct"
 name = "Llama 3.3 70B Instruct Turbo"
-structured_output = true
 
-[cost]
-input = 0.1
-output = 0.32
+[capabilities]
+structured_output = true
 
 [limit]
 context = 131_072
-output = 131_072
+output = 16_384
+
+[cost.text.input]
+price = 0.105
+
+[cost.text.output]
+price = 0.336

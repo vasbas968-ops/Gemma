@@ -1,0 +1,31 @@
+# Prices: GET https://www.runcrate.ai/api/models/catalog (accessed 2026-10-24), USD per 1M tokens as billed
+# (Qwen/Qwen3.8-Flash): input 0.11865, cached input 0.01265565, output 0.4011. context_length
+# 1,000,000, the same as the lab entry.
+# Reasoning is always on with no caller control on this host (live 2026-10-24): enable_thinking false,
+# thinking.type disabled and reasoning_effort none all still returned reasoning, and effort levels
+# did not order the reasoning length. Reasoning text is returned in reasoning_content.
+# Inputs: the catalog lists text only (input_modalities); an image request returned no choices, so
+# the lab entry's image and video inputs are not claimed for this host.
+# Live 2026-10-24: a tool call round-tripped; a strict json_schema response validated; a repeated
+# 8,346-token prompt reported 8,192 cached_tokens.
+schema = 2
+base_model = "alibaba/qwen3.8-flash"
+
+[modalities]
+input = ["text"]
+output = ["text"]
+
+[capabilities]
+reasoning = { supported = true }
+structured_output = true
+cache = { implicit = true }
+
+[api.chat-completions]
+compatibility = { reasoning_field = "reasoning_content" }
+
+[cost.text.input]
+price = 0.11865
+cache = { read = 0.01265565 }
+
+[cost.text.output]
+price = 0.4011
