@@ -1,17 +1,20 @@
 # Prices: GET https://www.runcrate.ai/api/models/catalog (accessed 2026-10-24), USD per 1M tokens as billed
 # (deepseek-ai/DeepSeek-V3.2): input 0.273, cached input 0.1365, output 0.399. context_length 163,840
 # there; max_output_length 16,384 in GET https://api.runcrate.ai/v1/models.
-# Effort: reasoning_effort = none|high on POST https://api.runcrate.ai/v1/chat/completions (live
-# 2026-10-24). Omitted or none: no thinking (no reasoning_content); low or high: thinking on, about
-# 2,400 to 2,800 reasoning tokens on one prompt with no difference between the two, so two states as
-# on same-model peers. thinking.type and enable_thinking are ignored. Reasoning is in reasoning_content.
+# Toggle: reasoning.enabled = true|false (reasoning_effort = "none" also disables; thinking is off when
+# omitted), on POST https://api.runcrate.ai/v1/chat/completions. Live 2026-10-24, median
+# completion_tokens_details.reasoning_tokens: omitted, reasoning.enabled false and reasoning_effort
+# none returned no reasoning on 3 of 3 prompts each; reasoning.enabled true 562 (3 prompts);
+# reasoning_effort low 2,028 and high 1,144 (9 runs over 6 prompts each), so low and high are both just
+# "on" with no grading, the toggle case of same-model peers. thinking.type enabled and
+# chat_template_kwargs.thinking true do not turn it on. Reasoning is in reasoning_content.
 # Live 2026-10-24: a tool call round-tripped (192 of 308 prompt tokens reported cached); a strict
 # json_schema response validated; image input is refused with HTTP 400.
 schema = 2
 base_model = "deepseek/deepseek-v3.2"
 
 [capabilities]
-reasoning = { supported = true, effort = ["none", "high"] }
+reasoning = { supported = true, toggle = true }
 structured_output = true
 cache = { implicit = true }
 

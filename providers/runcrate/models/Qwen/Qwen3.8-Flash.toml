@@ -1,9 +1,15 @@
 # Prices: GET https://www.runcrate.ai/api/models/catalog (accessed 2026-10-24), USD per 1M tokens as billed
 # (Qwen/Qwen3.8-Flash): input 0.11865, cached input 0.01265565, output 0.4011. context_length
 # 1,000,000, the same as the lab entry.
-# Reasoning is always on with no caller control on this host (live 2026-10-24): enable_thinking false,
-# thinking.type disabled and reasoning_effort none all still returned reasoning, and effort levels
-# did not order the reasoning length. Reasoning text is returned in reasoning_content.
+# Toggle: chat_template_kwargs.enable_thinking = true|false (on by default), on POST
+# https://api.runcrate.ai/v1/chat/completions. Live 2026-10-24, median
+# completion_tokens_details.reasoning_tokens: chat_template_kwargs.enable_thinking false returned no
+# reasoning on 6 of 6 prompts; omitted 1,027.5 (18 runs over 6 prompts). The host does not act on the
+# lab's other controls: top-level enable_thinking false still reasoned (1,074, 6 prompts);
+# reasoning_effort low 719, medium 1,213.5, xhigh 866 (18 runs over 6 prompts each, xhigh below medium,
+# none still reasoned); thinking_budget 128 did not cap reasoning, top-level (median 1,181.5, up to
+# 2,896, 12 runs) or in chat_template_kwargs (median 736, up to 1,640, 10 runs). So toggle only, no
+# effort and no budget. Reasoning text is returned in reasoning_content.
 # Inputs: the catalog lists text only (input_modalities); an image request returned no choices, so
 # the lab entry's image and video inputs are not claimed for this host.
 # Live 2026-10-24: a tool call round-tripped; a strict json_schema response validated; a repeated
@@ -16,7 +22,7 @@ input = ["text"]
 output = ["text"]
 
 [capabilities]
-reasoning = { supported = true }
+reasoning = { supported = true, toggle = true }
 structured_output = true
 cache = { implicit = true }
 
