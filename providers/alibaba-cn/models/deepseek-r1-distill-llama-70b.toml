@@ -18,9 +18,8 @@ tools = { supported = false }
 reasoning = { supported = true }
 temperature = true
 top_k = false
-effort_updates = false
 stream_usage = true
-cache = { supported = false }
+cache = false
 
 [limit]
 context = 32_768

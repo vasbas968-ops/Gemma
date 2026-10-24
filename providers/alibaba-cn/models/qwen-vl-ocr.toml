@@ -22,9 +22,8 @@ reasoning = { supported = false }
 temperature = true
 top_p = true
 top_k = true
-effort_updates = false
 stream_usage = true
-cache = { supported = false }
+cache = false
 
 [limit]
 context = 34_096
