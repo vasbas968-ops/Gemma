@@ -1,0 +1,37 @@
+# Served on POST https://llm.scalefrequency.com/v2/chat/completions. The host also accepts `mira-llm`
+# as an alias for this model; google/gemma-4-26b-a4b-it is the canonical id.
+# Prices: https://scalefrequency.com/pricing (accessed 2026-10-28). Billed in INR: ₹15 input, ₹9.30 cached
+# input, ₹55 output per 1M tokens. The page lists USD reference prices of $0.15 / $0.093 / $0.55 (₹100 = $1),
+# which are used here.
+# API reference: https://docs.miraiminds.co/v2/llm ("What the API reads", accessed 2026-10-28).
+# Reasoning: not exposed on this host. The docs say the model's thinking is never returned (no reasoning
+# content or reasoning tokens) and that `reasoning` / `reasoning_effort` are ignored.
+# Modalities: text in, text out. The docs say any message part other than text (images, audio) is refused.
+# Limits (docs "Limits" section): 32,768-token context; replies up to 1,024 tokens per request by default
+# (400 when max_tokens is unset); 16,000 characters of message text per request by default. Text and reply
+# limits can be raised per account on request.
+# structured_output: response_format {"type": "json_schema", ...} is accepted (same docs page).
+# Cache: implicit prefix caching. Per the docs, cached input is the part of a prompt that repeats the start
+# of a recent request; it is billed at the cached input price with no cache markers.
+schema = 2
+base_model = "google/gemma-4-26b-a4b-it"
+
+[modalities]
+input = ["text"]
+output = ["text"]
+
+[capabilities]
+reasoning = { supported = false }
+structured_output = true
+cache = { implicit = true }
+
+[limit]
+context = 32_768
+output = 1_024
+
+[cost.text.input]
+price = 0.15
+cache = { read = 0.093 }
+
+[cost.text.output]
+price = 0.55
