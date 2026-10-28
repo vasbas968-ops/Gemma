@@ -1,0 +1,11 @@
+# OpenAI-compatible inference API: POST https://api.runcrate.ai/v1/chat/completions
+# (also POST /v1/responses and the Anthropic Messages API at POST /v1/messages).
+# Model catalog with per-token USD pricing, context_length and input_modalities:
+# GET https://api.runcrate.ai/v1/models (public, no key)
+# OpenAPI: https://www.runcrate.ai/openapi.json
+name = "Runcrate"
+env = ["RUNCRATE_API_KEY"]
+npm = "@ai-sdk/openai-compatible"
+opencodeai = "@opencode/ai/providers/openai-compatible"
+api = "https://api.runcrate.ai/v1"
+doc = "https://www.runcrate.ai/docs/models/overview?utm_source=models-dev&utm_medium=directory&utm_campaign=gpu_pricing"
